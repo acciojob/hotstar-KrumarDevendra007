@@ -34,7 +34,7 @@ public class SubscriptionService {
         subscription.setSubscriptionType(subscriptionEntryDto.getSubscriptionType());
         subscription.setNoOfScreensSubscribed(subscriptionEntryDto.getNoOfScreensRequired());
 
-        SubscriptionType substype = subscriptionEntryDto.getSubscriptionType();
+        SubscriptionType substype = subscription.getSubscriptionType();
         int amount = 0;
 
         if(substype == SubscriptionType.BASIC){
