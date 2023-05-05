@@ -18,7 +18,6 @@ public class ProductionHouseController {
     @Autowired
     ProductionHouseService productionHouseService;
 
-
     @PostMapping("/add")
     public Integer addProductionHouseInfoIntoDb(@RequestBody ProductionHouseEntryDto productionHouseEntryDto){
 
@@ -26,5 +25,4 @@ public class ProductionHouseController {
         return productionHouseService.addProductionHouseToDb(productionHouseEntryDto);
 
     }
-
 }
