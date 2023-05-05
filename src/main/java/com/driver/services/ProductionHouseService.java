@@ -19,20 +19,15 @@ public class ProductionHouseService {
     public Integer addProductionHouseToDb(ProductionHouseEntryDto productionHouseEntryDto){
 
         ProductionHouse productionHouse = new ProductionHouse();
+
         productionHouse.setName(productionHouseEntryDto.getName());
+        productionHouse.setRatings(0.0);
 
-        List<WebSeries> webSeriesList = productionHouse.getWebSeriesList();
-        double ratingSum = 0;
+        ProductionHouse productionHouseAdded = productionHouseRepository.save(productionHouse);
 
-        for(WebSeries w : webSeriesList){
-            ratingSum += w.getRating();
-        }
+        return productionHouseAdded.getId();
 
-        double rating = ratingSum/webSeriesList.size();
 
-        productionHouse.setRatings(rating);
-        productionHouseRepository.save(productionHouse);
 
-        return productionHouse.getId();
     }
 }

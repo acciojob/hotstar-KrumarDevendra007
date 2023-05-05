@@ -25,7 +25,7 @@ public class WebSeriesService {
         //Don't forget to save the production and webseries Repo
 
 
-        ProductionHouse productionHouse = productionHouseRepository.findById(webSeriesEntryDto.getProductionHouseId()).get();
+
         WebSeries webSeries = new WebSeries();
 
         try {
@@ -40,11 +40,22 @@ public class WebSeriesService {
         webSeries.setAgeLimit(webSeriesEntryDto.getAgeLimit());
         webSeries.setRating(webSeriesEntryDto.getRating());
         webSeries.setSubscriptionType(webSeriesEntryDto.getSubscriptionType());
-        webSeries.setId(productionHouse.getId());
 
-        webSeriesRepository.save(webSeries);
+        ProductionHouse productionHouse = productionHouseRepository.findById(webSeriesEntryDto.getProductionHouseId()).get();
 
+        webSeries.setProductionHouse(productionHouse);
 
-        return webSeriesEntryDto.getProductionHouseId();
+        productionHouse.getWebSeriesList().add(webSeries);
+
+        double oldRating = productionHouse.getRatings();
+        double newRating = webSeries.getRating();
+        int size = productionHouse.getWebSeriesList().size();
+
+        double updated = oldRating + (newRating - oldRating)/size;
+
+        productionHouseRepository.save(productionHouse);
+         WebSeries webSeries1 = webSeriesRepository.save(webSeries);
+
+        return webSeries1.getId();
     }
 }

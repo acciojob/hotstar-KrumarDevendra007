@@ -37,10 +37,10 @@ public class SubscriptionService {
         SubscriptionType substype = subscription.getSubscriptionType();
         int amount = 0;
 
-        if(substype == SubscriptionType.BASIC){
+        if(substype.toString().equals("BASIC")){
             amount = 500 + 200 * subscription.getNoOfScreensSubscribed();
         }
-        else if (substype == SubscriptionType.PRO) {
+        else if (substype.toString().equals("PRO")) {
             amount = 800 + 250 * subscription.getNoOfScreensSubscribed();
         }
         else {
@@ -49,8 +49,9 @@ public class SubscriptionService {
 
         subscription.setTotalAmountPaid(amount);
         subscription.setUser(user);
+        user.setSubscription(subscription);
 
-        subscriptionRepository.save(subscription);
+        userRepository.save(user);
 
         return amount;
     }
@@ -60,22 +61,25 @@ public class SubscriptionService {
         //If you are already at an ElITE subscription : then throw Exception ("Already the best Subscription")
         //In all other cases just try to upgrade the subscription and tell the difference of price that user has to pay
         //update the subscription in the repository
+        User user = userRepository.findById(userId).get();
         Subscription subscription = subscriptionRepository.findById(userId).get();
         SubscriptionType subsType = subscription.getSubscriptionType();
 
         int toPay = 0;
         if(subsType == SubscriptionType.ELITE){
             throw new Exception("Already the best Subscription");
+
         }
 
        else if(subsType == SubscriptionType.BASIC){
-           subscription.setSubscriptionType(SubscriptionType.PRO);
            toPay =  800 + 250 * subscription.getNoOfScreensSubscribed() - subscription.getTotalAmountPaid();
+           subscription.setSubscriptionType(SubscriptionType.PRO);
+
        }
 
        else if(subsType == SubscriptionType.PRO){
-           subscription.setSubscriptionType(SubscriptionType.ELITE);
            toPay = 1000 + 350 * subscription.getNoOfScreensSubscribed() - subscription.getTotalAmountPaid();
+           subscription.setSubscriptionType(SubscriptionType.ELITE);
        }
 
        subscriptionRepository.save(subscription);
