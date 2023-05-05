@@ -37,10 +37,10 @@ public class SubscriptionService {
         SubscriptionType substype = subscription.getSubscriptionType();
         int amount = 0;
 
-        if(substype.toString().equals("BASIC")){
+        if(substype == SubscriptionType.BASIC){
             amount = 500 + 200 * subscription.getNoOfScreensSubscribed();
         }
-        else if (substype.toString().equals("PRO")) {
+        else if (substype== SubscriptionType.PRO) {
             amount = 800 + 250 * subscription.getNoOfScreensSubscribed();
         }
         else {
