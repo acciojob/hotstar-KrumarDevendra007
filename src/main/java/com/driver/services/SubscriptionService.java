@@ -31,24 +31,20 @@ public class SubscriptionService {
         SubscriptionType substype = subscriptionEntryDto.getSubscriptionType();
 
         subscription.setId(subscriptionEntryDto.getUserId());
+        subscription.setSubscriptionType(subscriptionEntryDto.getSubscriptionType());
         subscription.setNoOfScreensSubscribed(subscriptionEntryDto.getNoOfScreensRequired());
 
         if(substype == SubscriptionType.BASIC){
-            subscription.setSubscriptionType(SubscriptionType.BASIC);
             amount = 500 + 200 * subscription.getNoOfScreensSubscribed();
-
         }
         else if (substype == SubscriptionType.PRO) {
-            subscription.setSubscriptionType(SubscriptionType.PRO);
             amount = 800 + 250 * subscription.getNoOfScreensSubscribed();
-            subscription.setTotalAmountPaid(amount);
         }
         else {
-            subscription.setSubscriptionType(SubscriptionType.ELITE);
             amount = 1000 + 350 * subscription.getNoOfScreensSubscribed();
-            subscription.setTotalAmountPaid(amount);
         }
 
+        subscription.setTotalAmountPaid(amount);
         subscriptionRepository.save(subscription);
 
         return amount;
