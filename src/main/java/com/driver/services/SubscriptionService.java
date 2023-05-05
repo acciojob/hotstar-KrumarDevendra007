@@ -62,7 +62,8 @@ public class SubscriptionService {
         //In all other cases just try to upgrade the subscription and tell the difference of price that user has to pay
         //update the subscription in the repository
         User user = userRepository.findById(userId).get();
-        Subscription subscription = subscriptionRepository.findById(userId).get();
+        Subscription subscription = user.getSubscription();
+
         SubscriptionType subsType = subscription.getSubscriptionType();
 
         int toPay = 0;
